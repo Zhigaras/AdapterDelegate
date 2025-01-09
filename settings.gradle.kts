@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "AdapterDelegate"
 include(":app")
- 
+include(":adapterdelegate")
