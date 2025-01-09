@@ -10,7 +10,7 @@ abstract class AdapterDelegate<M : ListItem, in VH : ViewHolderDelegate<M>> {
         viewHolder.bind(item)
     }
 
-    fun bindViewHolder(viewHolder: VH, payload: Payload<ViewBinding>) {
-        viewHolder.bind(payload)
+    fun bindViewHolder(viewHolder: VH, payloads: List<Payload<ViewBinding>>) {
+        payloads.forEach { viewHolder.bind(it) }
     }
 }

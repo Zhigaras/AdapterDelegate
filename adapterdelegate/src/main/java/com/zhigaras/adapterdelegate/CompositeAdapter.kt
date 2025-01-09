@@ -31,9 +31,10 @@ class CompositeAdapter(
         val item = getItem(position)
         val delegate = delegates[item.itemType()]
             ?: throw IllegalStateException("Can`t bind ViewHolder for position $position")
-        if (payloads.any { it !is Payload.None })
-            delegate.bindViewHolder(holder, payloads.last() as Payload<ViewBinding>)
-        else delegate.bindViewHolder(item, holder)
+        payloads.filterIsInstance<Payload<ViewBinding>>().let {
+            if (it.isNotEmpty()) delegate.bindViewHolder(holder, it)
+            else delegate.bindViewHolder(item, holder)
+        }
     }
 
     class Builder {
