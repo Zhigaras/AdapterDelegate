@@ -8,22 +8,23 @@ import com.zhigaras.adapter_delegate.payloads.TitleChangedPayload
 
 data class Post(
     val id: Long,
-    val title: String,
-    val author: String,
-    val date: Long,
-    val text: String,
-    val isLiked: Boolean
+    val title: String = "",
+    val author: String = "",
+    val date: Long = 0,
+    val text: String = "",
+    val isLiked: Boolean = false
 ) : ListItem {
     override fun areItemTheSame(newItem: ListItem): Boolean {
         if (newItem !is Post) return false
         return id == newItem.id
     }
 
-    override fun payload(newItem: ListItem): Payload<*> {
-        if (newItem !is Post) return Payload.None()
-        if (newItem.isLiked != isLiked) return LikeChangedPayload(newItem.isLiked)
-        if (newItem.text != text) return TextChangedPayload(newItem.text)
-        if (newItem.title != title) return TitleChangedPayload(newItem.title)
-        return Payload.None()
+    override fun payload(newItem: ListItem): List<Payload<*>> {
+        if (newItem !is Post) return emptyList()
+        val payloads = mutableListOf<Payload<*>>()
+        if (newItem.isLiked != isLiked) payloads.add(LikeChangedPayload(newItem.isLiked))
+        if (newItem.text != text) payloads.add(TextChangedPayload(newItem.text))
+        if (newItem.title != title) payloads.add(TitleChangedPayload(newItem.title))
+        return payloads
     }
 }

@@ -17,5 +17,5 @@ interface ListItem {
     
     fun areContentTheSame(newItem: ListItem): Boolean = this == newItem
     
-    fun payload(newItem: ListItem): Payload<*> = Payload.None()
+    fun payload(newItem: ListItem): List<Payload<*>> = emptyList()
 }
