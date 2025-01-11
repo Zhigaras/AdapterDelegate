@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.zhigaras.adapterdelegate"
-    compileSdk = 34
+    namespace = "com.zhigaras.adapter_delegate"
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.zhigaras.adapterdelegate"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -30,13 +30,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures { viewBinding = true }
 }
 
 dependencies {
-
+    implementation(project(":adapterdelegate"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.glide)
+    implementation(libs.lifecycle)
 }
