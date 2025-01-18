@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish")
+    id("signing")
 }
 
 android {
     namespace = "com.zhigaras.adapterdelegate"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -28,6 +30,32 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures { viewBinding = true }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            setUrl(layout.buildDirectory.dir("staging-deploy"))
+        }
+    }
+    publications {
+        create<MavenPublication>("release") {
+            afterEvaluate {
+                from(components["release"])
+
+                groupId = "io.github.zhigaras"
+                artifactId = project.name
+                version = "1.0.0"
+            }
+        }
+    }
 }
 
 dependencies {
