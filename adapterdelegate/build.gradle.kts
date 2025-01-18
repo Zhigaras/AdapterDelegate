@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jreleaser)
     id("maven-publish")
     id("signing")
 }
@@ -39,6 +40,10 @@ android {
     }
 }
 
+dependencies {
+    implementation(libs.androidx.recyclerview)
+}
+
 publishing {
     repositories {
         maven {
@@ -58,6 +63,11 @@ publishing {
     }
 }
 
-dependencies {
-    implementation(libs.androidx.recyclerview)
+jreleaser {
+    release {
+        github {
+            skipRelease = true
+            skipTag = true
+        }
+    }
 }
