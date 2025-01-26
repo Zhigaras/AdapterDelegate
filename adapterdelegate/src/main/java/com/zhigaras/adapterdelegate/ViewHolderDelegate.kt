@@ -7,9 +7,9 @@ abstract class ViewHolderDelegate<in M : ListItem>(
     private val binding: ViewBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    abstract fun bind(item: M)
+    abstract fun bind(item: M, position: Int)
 
-    fun bind(payload: Payload<ViewBinding>) {
+    fun bind(payload: Payload<ViewBinding>, position: Int) {
         payload.bindPayload(binding)
     }
 }

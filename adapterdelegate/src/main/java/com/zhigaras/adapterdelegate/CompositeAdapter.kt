@@ -19,7 +19,7 @@ class CompositeAdapter(
 
     override fun onBindViewHolder(holder: ViewHolderDelegate<ListItem>, position: Int) {
         val item = getItem(position)
-        delegates[item.itemType()]?.bindViewHolder(item, holder)
+        delegates[item.itemType()]?.bindViewHolder(item, holder, position)
             ?: throw IllegalStateException("Can`t bind ViewHolder for position $position")
     }
 
@@ -32,8 +32,8 @@ class CompositeAdapter(
         val delegate = delegates[item.itemType()]
             ?: throw IllegalStateException("Can`t bind ViewHolder for position $position")
         payloads.filterIsInstance<Payload<ViewBinding>>().let {
-            if (it.isNotEmpty()) delegate.bindViewHolder(holder, it)
-            else delegate.bindViewHolder(item, holder)
+            if (it.isNotEmpty()) delegate.bindViewHolder(holder, it, position)
+            else delegate.bindViewHolder(item, holder, position)
         }
     }
 
