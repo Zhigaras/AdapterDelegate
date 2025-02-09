@@ -57,6 +57,28 @@ If you want to update specific views partially rather than redrawing the entire 
 2. Implement `bindPayload()` method, where you can update view as you need accordingly.
 3. Override `payload()` method in your model, check which fields was changed and return list of `Payloads`
 
+```kotlin
+class LikeChangedPayload(private val isLiked: Boolean) : Payload<LayoutPostBinding> {
+    override fun bindPayload(binding: LayoutPostBinding) {
+        Glide.with(binding.root)
+            .load(if (isLiked) R.drawable.ic_liked else R.drawable.ic_not_liked)
+            .into(binding.likeIv)
+    }
+}
+
+class TextChangedPayload(private val newText: String) : Payload<LayoutPostBinding> {
+    override fun bindPayload(binding: LayoutPostBinding) {
+        binding.text.text = newText
+    }
+}
+
+class TitleChangedPayload(private val newTitle: String) : Payload<LayoutPostBinding> {
+    override fun bindPayload(binding: LayoutPostBinding) {
+        binding.title.text = newTitle
+    }
+}
+```
+
 ### 2. Creating an `AdapterDelegate` and `ViewHolder`
 
 ```kotlin
