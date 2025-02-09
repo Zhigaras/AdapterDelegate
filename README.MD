@@ -1,5 +1,7 @@
 # AdapterDelegate
 
+Inspired by https://github.com/sockeqwe/AdapterDelegates
+
 AdapterDelegate is a library that simplifies working with `RecyclerView.Adapter` and `Payloads` in Android, providing a flexible and modular way to handle different types of list items using delegates.
 
 ## Features
