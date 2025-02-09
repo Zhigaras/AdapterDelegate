@@ -81,6 +81,29 @@ class TitleChangedPayload(private val newTitle: String) : Payload<LayoutPostBind
 }
 ```
 
+Or you can use helper fun `makePayload()`
+
+```kotlin
+data class Post(
+    val id: Long,
+    val title: String = ""
+) : ListItem {
+    override fun areItemTheSame(newItem: ListItem): Boolean {
+        if (newItem !is Post) return false
+        return id == newItem.id
+    }
+
+    override fun payload(newItem: ListItem): List<Payload<*>> {
+        if (newItem !is Post) return emptyList()
+        val payloads = mutableListOf<Payload<*>>()
+        if (newItem.title != title) payloads.add(makePayload<LayoutPostBinding> {
+            title.text = newItem.title
+        })
+        return payloads
+    }
+}
+```
+
 ### 2. Creating an `AdapterDelegate` and `ViewHolder`
 
 ```kotlin
@@ -110,6 +133,21 @@ val adapter = CompositeAdapter.Builder()
     .build()
 
 binding.recyclerView.adapter = adapter
+```
+
+### DSL
+
+```kotlin
+val adapter = adapter {
+    delegate<Post, LayoutPostBinding>(
+        inflate = { inflater, parent -> LayoutPostBinding.inflate(inflater, parent, false) },
+        bind = { item ->
+            title.text = item.title
+            text.text = item.text
+        }
+    )
+    /* add other delegates */
+}
 ```
 
 Then collect the list changes and submit them to adapter

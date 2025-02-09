@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 //        val adapter = CompositeAdapter.Builder()
 //            .addDelegate(PostDelegate())
-//            // add other delegates
+//            /* add other delegates */
 //            .build()
 
         val adapter = adapter {
