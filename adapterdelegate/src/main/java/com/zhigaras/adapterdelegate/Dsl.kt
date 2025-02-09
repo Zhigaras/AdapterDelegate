@@ -4,19 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 
-inline fun <reified M : ListItem, VB : ViewBinding> adapterDelegate(
-    crossinline inflate: (LayoutInflater, ViewGroup) -> VB,
-    crossinline bind: VB.(M) -> Unit
-): AdapterDelegate<M, ViewHolderDelegate<M>> {
-    return object : AdapterDelegate<M, ViewHolderDelegate<M>>() {
-        override fun viewType() = M::class.hashCode()
-        override fun createViewHolder(parent: ViewGroup): ViewHolderDelegate<M> {
-            val binding = inflate.invoke(LayoutInflater.from(parent.context), parent)
-            return object : ViewHolderDelegate<M>(binding) {
-                override fun bind(item: M) = bind.invoke(binding, item)
-            }
-        }
+@DslMarker
+annotation class AdapterDsl
+
+@AdapterDsl
+class AdapterBuilder {
+    val delegates = mutableListOf<AdapterDelegate<out ListItem, ViewHolderDelegate<ListItem>>>()
+
+    inline fun <reified M : ListItem, VB : ViewBinding> delegate(
+        crossinline inflate: (LayoutInflater, ViewGroup) -> VB,
+        crossinline bind: VB.(M) -> Unit
+    ) {
+        delegates.add(adapterDelegate(inflate, bind))
     }
+
+    fun build() = CompositeAdapter.Builder().apply { delegates.forEach { addDelegate(it) } }.build()
 }
 
-fun <VB : ViewBinding> makePayload(bind: VB.() -> Unit) = Payload(bind)
+fun adapter(init: AdapterBuilder.() -> Unit): CompositeAdapter {
+    return AdapterBuilder().apply(init).build()
+}
