@@ -8,6 +8,7 @@ import com.zhigaras.adapter_delegate.databinding.LayoutPostBinding
 import com.zhigaras.adapterdelegate.AdapterDelegate
 import com.zhigaras.adapterdelegate.ViewHolderDelegate
 import com.zhigaras.adapter_delegate.models.Post
+import com.zhigaras.adapterdelegate.adapterDelegate
 
 class PostDelegate : AdapterDelegate<Post, PostDelegate.PostViewHolder>() {
 
@@ -29,4 +30,16 @@ class PostDelegate : AdapterDelegate<Post, PostDelegate.PostViewHolder>() {
     override fun createViewHolder(parent: ViewGroup) = PostViewHolder(
         LayoutPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
+}
+
+// alternative
+val postDelegate = adapterDelegate<Post, LayoutPostBinding>({ inflater, parent ->
+    LayoutPostBinding.inflate(inflater, parent, true)
+}) { item ->
+    title.text = item.title
+    text.text = item.text
+    author.text = item.author
+    Glide.with(root)
+        .load(if (item.isLiked) R.drawable.ic_liked else R.drawable.ic_not_liked)
+        .into(likeIv)
 }

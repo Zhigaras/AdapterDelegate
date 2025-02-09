@@ -1,10 +1,10 @@
 package com.zhigaras.adapter_delegate.models
 
-import com.zhigaras.adapterdelegate.ListItem
-import com.zhigaras.adapterdelegate.Payload
 import com.zhigaras.adapter_delegate.payloads.LikeChangedPayload
 import com.zhigaras.adapter_delegate.payloads.TextChangedPayload
 import com.zhigaras.adapter_delegate.payloads.TitleChangedPayload
+import com.zhigaras.adapterdelegate.ListItem
+import com.zhigaras.adapterdelegate.Payload
 
 data class Post(
     val id: Long,
