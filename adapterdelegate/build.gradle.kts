@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
 }
 
-version = "1.0.0"
+version = "1.1.0"
 
 publishing {
     mkdir("${layout.projectDirectory}\\build\\jreleaser")
