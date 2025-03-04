@@ -26,12 +26,14 @@ class CompositeAdapter(
     override fun onBindViewHolder(
         holder: ViewHolderDelegate<ListItem>,
         position: Int,
-        payloads: MutableList<Any>
+        payloads: List<Any>
     ) {
         val item = getItem(position)
         val delegate = delegates[item.itemType()]
             ?: throw IllegalStateException("Can`t bind ViewHolder for position $position")
-        payloads.filterIsInstance<Payload<ViewBinding>>().let {
+        val flatten = payloads.flatMap { if (it is List<*>) it else listOf(it) }
+        val casted = flatten.filterIsInstance<Payload<ViewBinding>>()
+        casted.let {
             if (it.isNotEmpty()) delegate.bindViewHolder(holder, it)
             else delegate.bindViewHolder(item, holder)
         }
